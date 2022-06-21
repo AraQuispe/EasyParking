@@ -8,8 +8,6 @@ import androidx.navigation.NavController
 @Composable
 fun SecondScreen(navController: NavController) {
     Scaffold {
-        Column {
-            Text(text = "HOLII")
-        }
+
     }
 }
