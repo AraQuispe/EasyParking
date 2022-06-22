@@ -1,4 +1,4 @@
-package com.ges.easyparking.screens
+package com.ges.easyparking.screens.detallePark
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*

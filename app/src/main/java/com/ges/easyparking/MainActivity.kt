@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -15,7 +14,10 @@ import com.ges.easyparking.components.TopBar
 import com.ges.easyparking.navigation.AppNavigation
 import com.ges.easyparking.navigation.AppScreens
 import com.ges.easyparking.ui.theme.EasyParkingTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterialApi
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +50,7 @@ fun MainHomeScreen() {
         scaffoldState = scaffoldState,
         topBar = { TopBar(scope, scaffoldState ) },
         drawerContent = { Drawer(scope, scaffoldState, navController, items = navigationItems) },
-        drawerGesturesEnabled = true
+        drawerGesturesEnabled = false
     ) {
         AppNavigation(navController)
     }

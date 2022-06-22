@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1074025949982",
+    "project_id": "laboratorio02-a00a1",
+    "storage_bucket": "laboratorio02-a00a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074025949982:android:6a5ecfa47bb33dd80c370f",
+        "android_client_info": {
+          "package_name": "com.ges.easyparking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074025949982-b2q2rcqtv41mhle4vqoj083mr08rjfob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOgbniGYVzokbjrQzMFFQvqbam4CeN7_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1074025949982-b2q2rcqtv41mhle4vqoj083mr08rjfob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
