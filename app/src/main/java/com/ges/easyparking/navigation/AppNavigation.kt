@@ -11,14 +11,20 @@ import androidx.navigation.navArgument
 import com.ges.easyparking.screens.listaParks.FirstScreen
 import com.ges.easyparking.screens.home.map.HomeScreen
 import com.ges.easyparking.screens.detallePark.SecondScreen
+import com.ges.easyparking.screens.home.map.HomeScreenViewModel
 import com.ges.easyparking.screens.home.map.ThirdScreen
 import com.ges.easyparking.screens.listaParks.FirstScreenViewModel
 
 @Composable
 fun AppNavigation(navController: NavHostController){
     NavHost(navController = navController, startDestination = AppScreens.HomeScreen.route){
-        composable(route = AppScreens.HomeScreen.route){
-            HomeScreen(navController)
+        composable(
+            route = AppScreens.HomeScreen.route
+            ){
+            val viewModel: HomeScreenViewModel = hiltViewModel()
+            val state = viewModel.state.value
+            val isRefreshing = viewModel.isRefreshing.collectAsState()
+            HomeScreen(navController, state, isRefreshing = isRefreshing.value, refreshData = viewModel::getParkCarList)
         }
         composable(
             route = AppScreens.FirstScreen.route

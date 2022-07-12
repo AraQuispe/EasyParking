@@ -33,4 +33,5 @@ class CustomInfoWindowForGoogleMap(context: Context) : GoogleMap.InfoWindowAdapt
         rendowWindowText(marker, mWindow)
         return mWindow
     }
+
 }
