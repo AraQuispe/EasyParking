@@ -27,6 +27,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ges.easyparking.clases.CarPark
 import com.ges.easyparking.components.BottomBarFilter
+import com.ges.easyparking.navigation.AppScreens
 import com.ges.easyparking.screens.listaParks.FirstScreenState
 import com.ges.easyparking.screens.listaParks.MyComponent
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -51,12 +52,12 @@ fun HomeScreen(
 
     Scaffold {
         BottomBarFilter()
-        MyGoogleMaps(state)
+        MyGoogleMaps(state, navController)
     }
 }
 
 @Composable
-fun MyGoogleMaps(state: HomeScreenState) {
+fun MyGoogleMaps(state: HomeScreenState, navController: NavController) {
     val marker = LatLng(-16.3991588, -71.5314951)
     val cameraPosition = rememberCameraPositionState{
         position = CameraPosition.fromLatLngZoom(marker, 20f)

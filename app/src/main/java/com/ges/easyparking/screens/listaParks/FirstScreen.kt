@@ -32,23 +32,11 @@ fun FirstScreen(
     isRefreshing: Boolean,
     refreshData: ()->Unit
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar() {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Arrow back",
-                    modifier = Modifier.clickable {
-                        navController.popBackStack()
-                    }
-                )
-                Text(text = "Lista de Parqueos")
-            }
-        }
-    ) {
+    Scaffold( ) {
         SecondBodyContent(navController, text, id, state, isRefreshing, refreshData)
     }
 }
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SecondBodyContent(
@@ -64,42 +52,16 @@ fun SecondBodyContent(
         contentAlignment = Alignment.Center
     ) {
         text?.let{ Text("Parqueos Cercanos",
-            fontSize = 25.sp,
+            fontSize = 24.sp,
             color = MaterialTheme.colors.primary,
             style = MaterialTheme.typography.subtitle1,
             textAlign = TextAlign.Center,
             maxLines = 2,
         )}
     }
-    Column(
-        modifier = Modifier.fillMaxHeight(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-
-        Row(){
-                MyMessages(navController, state, id, isRefreshing, refreshData)
-            Row(){
-                Button(onClick = {
-                    navController.popBackStack()
-                }){
-                    Text("Volver")
-                }
-            }
-        }
-    }
-}
-//            MyMessages(navController, state, id, isRefreshing, refreshData)
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun MyMessages(
-    navController: NavController,
-    state: FirstScreenState,
-    id: String?,
-    isRefreshing: Boolean,
-    refreshData: () -> Unit
-){
-    LazyColumn(){
+    LazyColumn(
+        contentPadding = PaddingValues(2.dp)
+    ) {
         items(
             items = state.carparks
         ){ item->
@@ -119,9 +81,9 @@ fun MyComponent(_message: CarPark, navController: NavController){
         .padding(10.dp)){
     }
     Row(modifier = Modifier
-        .padding(20.dp))
+        .padding(10.dp))
     {
-        MyTexts(_message)
+        MyTexts(_message, navController = navController)
         BottonMapa(_message = _message, navController = navController)
     }
 }
@@ -153,19 +115,25 @@ fun BottonMapa(_message: CarPark, navController: NavController){
 }
 
 @Composable
-fun MyTexts(_message: CarPark){
+fun MyTexts(_message: CarPark, navController: NavController){
     var expanded by remember{ mutableStateOf(false) }
     Column(
         modifier = Modifier
             .padding(start = 7.dp)
             .width(300.dp)
             .clickable {
-                expanded = !expanded
+                navController.navigate(route = AppScreens.SecondScreen.route
+                        + "/${_message.name}"
+                        + "/${_message.address}"
+                        + "/${_message.dateO}"
+                        + "/${_message.dateC}"
+                        + "/${_message.lat}"
+                        + "/${_message.lon}")
             }) {
         _message.name?.let {
             MyText(
                 it,
-                MaterialTheme.colors.primaryVariant,
+                MaterialTheme.colors.primary,
                 MaterialTheme.typography.subtitle1
             )
         }

@@ -36,13 +36,12 @@ import androidx.navigation.NavController
 import com.ges.easyparking.R
 import com.ges.easyparking.components.BottomBarFilter
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.ges.easyparking.navigation.AppScreens
 
 
 @Composable
 fun LoginScreen(navController: NavController){
     Scaffold {
-        BottomBarFilter()
-        BottomBarFilter()
         val emailValue = rememberSaveable { mutableStateOf("") }
         val passwordValue = rememberSaveable { mutableStateOf("") }
         var passwordVisibility by remember { mutableStateOf(false) }
@@ -92,8 +91,8 @@ fun LoginScreen(navController: NavController){
                             )
 
                             Text(
-                                text = "Inicio de Sesion Usuario",
-                                style = MaterialTheme.typography.h5.copy(
+                                text = "Inicia sesión",
+                                style = MaterialTheme.typography.subtitle2.copy(
                                     color = MaterialTheme.colors.primary
                                 )
                             )
@@ -107,7 +106,7 @@ fun LoginScreen(navController: NavController){
                             ) {
                                 TransparentTextField(
                                     textFieldValue = emailValue,
-                                    textLabel = "Email",
+                                    textLabel = "Correo",
                                     keyboardType = KeyboardType.Email,
                                     keyboardActions = KeyboardActions(
                                         onNext = {
@@ -119,7 +118,7 @@ fun LoginScreen(navController: NavController){
 
                                 TransparentTextField(
                                     textFieldValue = passwordValue,
-                                    textLabel = "Password",
+                                    textLabel = "Contraseña",
                                     keyboardType = KeyboardType.Password,
                                     keyboardActions = KeyboardActions(
                                         onDone = {
@@ -154,7 +153,7 @@ fun LoginScreen(navController: NavController){
 
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
-                                    text = "Forgot Password?",
+                                    text = "¿Olvidaste tu constraseña?",
                                     style = MaterialTheme.typography.body1,
                                     textAlign = TextAlign.End
                                 )
@@ -169,13 +168,13 @@ fun LoginScreen(navController: NavController){
                                     text = "Login",
                                     displayProgressBar = false,
                                     onClick = {
-                                        // TODO("LOGIN")
+                                        navController.navigate(route = AppScreens.HomeScreen.route)
                                     }
                                 )
 
                                 ClickableText(
                                     text = buildAnnotatedString {
-                                        append("Do not have an Account?")
+                                        append("¿No tienes una cuenta? ")
 
                                         withStyle(
                                             style = SpanStyle(
@@ -183,7 +182,7 @@ fun LoginScreen(navController: NavController){
                                                 fontWeight = FontWeight.Bold
                                             )
                                         ) {
-                                            append("Sign up")
+                                            append("Registrarse")
                                         }
                                     }
                                 ) {

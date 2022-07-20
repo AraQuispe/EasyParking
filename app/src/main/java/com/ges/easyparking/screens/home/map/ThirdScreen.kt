@@ -45,7 +45,7 @@ fun ThirdScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar() {
+            TopAppBar(modifier = Modifier.height(30.dp)) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Arrow back",
@@ -53,8 +53,7 @@ fun ThirdScreen(
                         navController.popBackStack()
                     }
                 )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(text = "Mapa")
+                Text(text = "Volver")
             }
         }
     ) {
