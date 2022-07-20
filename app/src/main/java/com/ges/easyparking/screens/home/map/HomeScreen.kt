@@ -65,13 +65,15 @@ fun MyGoogleMaps(state: HomeScreenState) {
     Box(modifier = Modifier.fillMaxHeight(0.91f), contentAlignment = Alignment.Center){
         GoogleMap(cameraPositionState = cameraPosition){
             state.carparks.forEach {
-                item ->
+                    item ->
                 val name = item.name.toString();
                 val address = item.address.toString();
-                val lat = java.lang.Double.valueOf(item.lat)
-                val long = java.lang.Double.valueOf(item.lon)
-                val pos = LatLng(lat, long)
-                Marker(position=pos, title = name, snippet = address)
+                if (item.lat != null && item.lon != null) {
+                    val lat = java.lang.Double.valueOf(item.lat)
+                    val long = java.lang.Double.valueOf(item.lon)
+                    var pos = LatLng(lat, long);
+                    Marker(position=pos, title = name, snippet = address)
+                }
             }
         }
     }
