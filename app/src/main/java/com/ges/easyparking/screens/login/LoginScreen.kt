@@ -153,7 +153,7 @@ fun LoginScreen(navController: NavController){
 
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
-                                    text = "¿Olvidaste tu constraseña?",
+                                    text = "¿Olvidaste tu contraseña?",
                                     style = MaterialTheme.typography.body1,
                                     textAlign = TextAlign.End
                                 )
