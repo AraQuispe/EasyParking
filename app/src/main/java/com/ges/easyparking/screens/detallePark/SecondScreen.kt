@@ -11,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,7 +18,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ges.easyparking.R
 import com.ges.easyparking.navigation.AppScreens
-import com.ges.easyparking.screens.home.map.*
+import com.ges.easyparking.userManager
+import kotlinx.coroutines.launch
 
 var nameP: String = ""
 var addressP: String = ""
@@ -37,12 +37,18 @@ fun SecondScreen(navController: NavController,
                  lat: String?,
                  lon: String?) {
     Scaffold (
+
         topBar = {
             TopAppBar(modifier = Modifier.height(30.dp)) {
+                val scope = rememberCoroutineScope()
+
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Arrow back",
                     modifier = Modifier.clickable {
+                        scope.launch {
+                            userManager.storeDisplayTopBar(true)
+                        }
                         navController.popBackStack()
                     }
                 )
@@ -125,13 +131,30 @@ fun SecondScreen(navController: NavController,
                         color = Color.Black,
                     )
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Spacer(Modifier.size(8.dp))
-                        Button(onClick = {navController.navigate(route = AppScreens.LoginScreen.route )}, shape = RoundedCornerShape(50),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color(0xFFFFAB00),
-                                contentColor = Color(0xFFFAFAF7)
-                            )) {
-                            Text("RESERVAR")
+                        var reserva by remember { mutableStateOf(false) }
+
+                        val stateActual = userManager.loginStateFlow.collectAsState(initial = 0).value
+                        if (stateActual == true && !reserva){
+                            Spacer(Modifier.size(8.dp))
+                            Button(onClick = {
+                                reserva = true },
+                                shape = RoundedCornerShape(50),
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color(0xFFFFAB00),
+                                    contentColor = Color(0xFFFAFAF7)
+                                )) {
+                                Text("RESERVAR")
+                            }
+                        } else if (stateActual == true && reserva){
+                            Spacer(Modifier.size(8.dp))
+                            Button(onClick = { reserva = false },
+                                shape = RoundedCornerShape(50),
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color(0xFFD80323),
+                                    contentColor = Color(0xFFFAFAF7)
+                                )) {
+                                Text("CANCELAR RESERVA")
+                            }
                         }
                         Spacer(Modifier.size(8.dp))
                         Button(onClick = {

@@ -34,9 +34,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ges.easyparking.R
-import com.ges.easyparking.components.BottomBarFilter
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.ges.easyparking.navigation.AppScreens
+import com.ges.easyparking.userManager
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -46,6 +47,7 @@ fun LoginScreen(navController: NavController){
         val passwordValue = rememberSaveable { mutableStateOf("") }
         var passwordVisibility by remember { mutableStateOf(false) }
         val focusManager = LocalFocusManager.current
+        val scope = rememberCoroutineScope()
 
         Box(
             modifier = Modifier
@@ -168,7 +170,13 @@ fun LoginScreen(navController: NavController){
                                     text = "Login",
                                     displayProgressBar = false,
                                     onClick = {
-                                        navController.navigate(route = AppScreens.HomeScreen.route)
+                                        if(emailValue.value !="" && passwordValue.value !=""){
+                                            scope.launch {
+                                                userManager.storeDisplayTopBar(true)
+                                                userManager.storeLoginState(true)
+                                            }
+                                            navController.navigate(route = AppScreens.HomeScreen.route)
+                                        }
                                     }
                                 )
 
@@ -192,23 +200,6 @@ fun LoginScreen(navController: NavController){
                         }
                     }
 
-                    FloatingActionButton(
-                        modifier = Modifier
-                            .size(72.dp)
-                            .constrainAs(fab) {
-                                top.linkTo(surface.top, margin = (-36).dp)
-                                end.linkTo(surface.end, margin = 36.dp)
-                            },
-                        backgroundColor = MaterialTheme.colors.primary,
-                        onClick = {}
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(42.dp),
-                            imageVector = Icons.Default.ArrowForward,
-                            contentDescription = "Forward Icon",
-                            tint = Color.White
-                        )
-                    }
                 }
             }
         }
