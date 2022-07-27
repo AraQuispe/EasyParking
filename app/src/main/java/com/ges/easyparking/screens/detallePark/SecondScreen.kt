@@ -46,7 +46,7 @@ fun SecondScreen(navController: NavController,
                         navController.popBackStack()
                     }
                 )
-                Text(text = "Volver a lista")
+                Text(text = "Volver")
             }
         }
             ){
@@ -75,13 +75,13 @@ fun SecondScreen(navController: NavController,
         ) {
             Text(
                 text = nameP,
-                fontSize = 26.sp,
+                fontSize = 24.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(20.dp)
+                modifier = Modifier.padding(20.dp, 15.dp)
             )
             Card(
-                modifier = Modifier.size(width = 320.dp, height = 550.dp),
+                modifier = Modifier.size(width = 340.dp, height = 480.dp),
                 shape = RoundedCornerShape(8.dp),
                 elevation = 10.dp,
 
@@ -92,7 +92,7 @@ fun SecondScreen(navController: NavController,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        modifier = Modifier.height(250.dp),
+                        modifier = Modifier.height(200.dp),
                         painter = painterResource(id = R.drawable.logoo),
                         contentDescription = "Detalle",
                         )
