@@ -1,6 +1,7 @@
 package com.ges.easyparking.di
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,4 +16,10 @@ class AppModule {
     @Singleton
     fun provideFireStoreInstance() = FirebaseFirestore.getInstance()
 
+    /*@Provides
+    @Singleton
+    fun provideUserList(
+        firestore: FirebaseFirestore
+    ) = firestore.collection("users")
+*/
 }

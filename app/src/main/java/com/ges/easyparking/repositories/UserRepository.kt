@@ -14,11 +14,10 @@ constructor(
 ){
     fun addNewUser(user: User) {
         try {
-            userList.document(user.id).set(user)
+            userList.collection("users").document(user.id).set(user)
         } catch (e: Exception){
             e.printStackTrace()
         }
-
     }
     fun getUserList(): Flow<Result<List<User>>> = flow{
         try{

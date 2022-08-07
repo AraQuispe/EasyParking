@@ -17,6 +17,7 @@ import com.ges.easyparking.screens.home.map.ThirdScreen
 import com.ges.easyparking.screens.listaParks.FirstScreenViewModel
 import com.ges.easyparking.screens.registration.RegistrationScreen
 import com.ges.easyparking.screens.login.LoginScreenViewModel
+import com.ges.easyparking.screens.registration.RegistrationScreenViewModel
 
 @Composable
 fun AppNavigation(navController: NavHostController){
@@ -32,7 +33,10 @@ fun AppNavigation(navController: NavHostController){
         composable(
             route = AppScreens.RegistrationScreen.route
         ){
-            RegistrationScreen(navController)
+            val viewModel: RegistrationScreenViewModel = hiltViewModel()
+            val state = viewModel.state.value
+            val isRefreshing = viewModel.isRefreshing.collectAsState()
+            RegistrationScreen(navController, state, isRefreshing = isRefreshing.value, refreshData = viewModel::getUserList, register = viewModel::addNewUser)
         }
         composable(
             route = AppScreens.HomeScreen.route

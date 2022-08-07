@@ -176,24 +176,24 @@ fun LoginScreen(
                                     text = "Login",
                                     displayProgressBar = false,
                                     onClick = {
-                                        val size = state.users.size
+                                        var correct = false
                                         state.users.forEach { item ->
                                             val email = item.email.toString()
                                             val password = item.password.toString()
 
-                                            Log.d("kover", email)
-                                            Log.d("kover", password)
+                                            if (email == emailValue.value && password == passwordValue.value)
+                                                correct = true
                                         }
-
-                                        Log.d("kover", size.toString())
-
-                                        if(emailValue.value =="admin" && passwordValue.value =="admin"){
+                                        if(correct){
                                             scope.launch {
                                                 userManager.storeDisplayTopBar(true)
                                                 userManager.storeLoginState(true)
                                             }
+                                            Log.d("iok","Login exitoso")
                                             navController.navigate(route = AppScreens.HomeScreen.route)
-
+                                        } else {
+                                            // msj: datos incorrectos
+                                            Log.d("iok","Datos incorrectos")
                                         }
                                     }
                                 )

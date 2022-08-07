@@ -37,12 +37,19 @@ import androidx.navigation.NavController
 import com.ges.easyparking.R
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.ges.easyparking.navigation.AppScreens
+import com.ges.easyparking.screens.login.LoginScreenState
 import com.ges.easyparking.userManager
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun RegistrationScreen(navController: NavController){
+fun RegistrationScreen(
+    navController: NavController,
+    state: RegistrationScreenState,
+    isRefreshing: Boolean,
+    refreshData: ()->Unit,
+    register: (String, String, String) -> Unit
+){
     Scaffold {
 
         Box(
@@ -70,7 +77,7 @@ fun RegistrationScreen(navController: NavController){
                             topEndPercent = 8
                         )
                     ) {
-                        form(navController)
+                        form(navController, state, register)
                     }
 
                 }
@@ -79,7 +86,7 @@ fun RegistrationScreen(navController: NavController){
     }
 }
 @Composable
-fun form(navController: NavController){
+fun form(navController: NavController, state: RegistrationScreenState, register: (String, String, String) -> Unit){
     val nameValue = rememberSaveable { mutableStateOf("") }
     val emailValue = rememberSaveable { mutableStateOf("") }
 
@@ -221,10 +228,63 @@ fun form(navController: NavController){
                 text = "Registrarme",
                 displayProgressBar = false,
                 onClick = {
-                    //Register
+                    var fields_valid = false
+                    var email_valid = false
+                    var passwords_valid = false
+
+                    if (validateFields(nameValue.value, emailValue.value, passwordValue.value)){
+                        fields_valid = true
+                    } else {
+                        // msj: los campos deben estar llenos
+                        Log.d("iok", "campos vacios")
+                    }
+
+                    if (validateEmail(emailValue.value)){
+                        email_valid = true
+                    } else {
+                        // msj: el email no es valido
+                        Log.d("iok", "email invalido")
+                    }
+
+                    if (validatePasswords(passwordValue.value, passwordValueRepeat.value)){
+                        passwords_valid = true
+                    } else {
+                        // msj: las contrasenas no coinciden
+                        Log.d("iok", "contrasenias no coinciden")
+                    }
+
+                    if (fields_valid && email_valid && passwords_valid) {
+                        // search email in DB
+                        var count = 0
+                        state.users.forEach { item ->
+                            if (item.email == emailValue.value) count++;
+                        }
+
+                        if(count == 0) {
+                            register(nameValue.value, emailValue.value, passwordValue.value)
+                            Log.d("Register", "Success")
+                        } else {
+                            // msj: este email ya esta registrado
+                            Log.d("Register", "email registrado")
+                        }
+
+                    }
+
                 }
             )
 
         }
     }
+}
+
+fun validateEmail(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.toString().toRegex().matches(email);
+}
+
+fun validateFields(name: String, email: String, password1: String): Boolean {
+    return name != "" && email != "" && password1 != ""
+}
+
+fun validatePasswords(password1: String, password2: String): Boolean {
+    return password1 == password2
 }
