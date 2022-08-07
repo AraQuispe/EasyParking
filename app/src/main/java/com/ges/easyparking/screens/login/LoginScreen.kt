@@ -3,6 +3,7 @@ package com.ges.easyparking.screens.login
 import RoundedButton
 import androidx.compose.foundation.Image
 import TransparentTextField
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,7 +42,12 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun LoginScreen(navController: NavController){
+fun LoginScreen(
+    navController: NavController,
+    state: LoginScreenState,
+    isRefreshing: Boolean,
+    refreshData: ()->Unit
+){
     Scaffold {
         val emailValue = rememberSaveable { mutableStateOf("") }
         val passwordValue = rememberSaveable { mutableStateOf("") }
@@ -170,12 +176,24 @@ fun LoginScreen(navController: NavController){
                                     text = "Login",
                                     displayProgressBar = false,
                                     onClick = {
-                                        if(emailValue.value !="" && passwordValue.value !=""){
+                                        val size = state.users.size
+                                        state.users.forEach { item ->
+                                            val email = item.email.toString()
+                                            val password = item.password.toString()
+
+                                            Log.d("kover", email)
+                                            Log.d("kover", password)
+                                        }
+
+                                        Log.d("kover", size.toString())
+
+                                        if(emailValue.value =="admin" && passwordValue.value =="admin"){
                                             scope.launch {
                                                 userManager.storeDisplayTopBar(true)
                                                 userManager.storeLoginState(true)
                                             }
                                             navController.navigate(route = AppScreens.HomeScreen.route)
+
                                         }
                                     }
                                 )
