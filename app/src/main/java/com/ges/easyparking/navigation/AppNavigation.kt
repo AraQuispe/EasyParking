@@ -15,6 +15,7 @@ import com.ges.easyparking.screens.detallePark.SecondScreen
 import com.ges.easyparking.screens.home.map.HomeScreenViewModel
 import com.ges.easyparking.screens.home.map.ThirdScreen
 import com.ges.easyparking.screens.listaParks.FirstScreenViewModel
+import com.ges.easyparking.screens.registration.RegistrationScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController){
@@ -23,6 +24,11 @@ fun AppNavigation(navController: NavHostController){
             route = AppScreens.LoginScreen.route
         ){
             LoginScreen(navController)
+        }
+        composable(
+            route = AppScreens.RegistrationScreen.route
+        ){
+            RegistrationScreen(navController)
         }
         composable(
             route = AppScreens.HomeScreen.route

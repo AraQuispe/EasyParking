@@ -14,9 +14,12 @@ sealed class AppScreens(
     val arguments: List<NamedNavArgument>
     ){
     object LoginScreen: AppScreens("login_screen", "Inicio Sesión", Icons.Filled.Home, emptyList())
+    object RegistrationScreen: AppScreens("registration_screen", "Registro", Icons.Filled.Home, emptyList())
+
     object HomeScreen: AppScreens("home_screen", "Ver mapa", Icons.Filled.Home, emptyList())
     object FirstScreen: AppScreens("first_screen", "Ver lista", Icons.Filled.List, emptyList())
     object SecondScreen: AppScreens("second_screen","Detalle", Icons.Filled.Build, emptyList())
     object ThirdScreen: AppScreens("third_screen","Parqueo en el mapa", Icons.Filled.List, emptyList())
+
 
 }

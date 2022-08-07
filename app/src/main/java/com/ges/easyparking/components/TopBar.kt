@@ -26,7 +26,7 @@ fun TopBar(
     var stateDisplay: Boolean = stateActual == true
 
     AnimatedVisibility(
-        visible = stateDisplay,
+        visible = true,
         content = { TopAppBar(
             title = { Text(LocalContext.current.getString(R.string.app_name)) },
             navigationIcon = {

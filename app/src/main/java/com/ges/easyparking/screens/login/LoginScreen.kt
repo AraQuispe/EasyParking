@@ -194,7 +194,7 @@ fun LoginScreen(navController: NavController){
                                         }
                                     }
                                 ) {
-                                    // TODO("NAVIGATE TO REGISTER SCREEN")
+                                    navController.navigate(route = AppScreens.RegistrationScreen.route)
                                 }
                             }
                         }
