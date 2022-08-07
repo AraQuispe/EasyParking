@@ -50,7 +50,8 @@ fun MainHomeScreen() {
 
     val navigationItems = listOf(
         AppScreens.HomeScreen,
-        AppScreens.FirstScreen
+        AppScreens.FirstScreen,
+        AppScreens.LoginScreen
     )
     Scaffold(
         scaffoldState = scaffoldState,
