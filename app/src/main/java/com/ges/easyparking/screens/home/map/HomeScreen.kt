@@ -54,6 +54,7 @@ fun MyGoogleMaps(state: HomeScreenState, navController: NavController) {
     )
 
     Button( modifier = Modifier.padding(20.dp, 0.dp, 0.dp ,0.dp), onClick = {permissionState.launchPermissionRequest() }) {
+        Text(text = "Click aquí para brindarnos permisos")
     }
     if (permissionState.hasPermission) {
 
