@@ -1,17 +1,14 @@
 package com.ges.easyparking.screens.registration
 
 import RoundedButton
-import androidx.compose.foundation.Image
 import TransparentTextField
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
@@ -20,26 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.ges.easyparking.R
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.ges.easyparking.navigation.AppScreens
-import com.ges.easyparking.screens.login.LoginScreenState
-import com.ges.easyparking.userManager
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -88,10 +74,15 @@ fun RegistrationScreen(
 @Composable
 fun form(navController: NavController, state: RegistrationScreenState, register: (String, String, String) -> Unit){
     val nameValue = rememberSaveable { mutableStateOf("") }
+    val nameValidate = rememberSaveable{( mutableStateOf(false) ) }
+
     val emailValue = rememberSaveable { mutableStateOf("") }
+    val emailValidate = rememberSaveable{( mutableStateOf(false) ) }
 
     val passwordValue = rememberSaveable { mutableStateOf("") }
+    val passwordValidate = rememberSaveable{( mutableStateOf(false) ) }
     val passwordValueRepeat = rememberSaveable { mutableStateOf("") }
+    val password2Validate = rememberSaveable{( mutableStateOf(false) ) }
 
     var passwordVisibility by remember { mutableStateOf(false) }
     var passwordRepeatVisibility by remember { mutableStateOf(false) }
@@ -113,7 +104,7 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
         )
 
         Text(
-            text = "Registro",
+            text = "Ingresa tus datos para registrarte",
             style = MaterialTheme.typography.subtitle2.copy(
                 color = MaterialTheme.colors.primary
             )
@@ -135,7 +126,8 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
                         focusManager.moveFocus(FocusDirection.Down)
                     }
                 ),
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
+                isError = nameValidate.value,
             )
             TransparentTextField(
                 textFieldValue = emailValue,
@@ -146,7 +138,8 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
                         focusManager.moveFocus(FocusDirection.Down)
                     }
                 ),
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
+                isError = emailValidate.value
             )
 
             TransparentTextField(
@@ -181,7 +174,8 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
                     VisualTransformation.None
                 } else {
                     PasswordVisualTransformation()
-                }
+                },
+                isError = passwordValidate.value
             )
             TransparentTextField(
                 textFieldValue = passwordValueRepeat,
@@ -215,7 +209,8 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
                     VisualTransformation.None
                 } else {
                     PasswordVisualTransformation()
-                }
+                },
+                isError = false
             )
         }
 
@@ -237,6 +232,10 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
                     } else {
                         // msj: los campos deben estar llenos
                         Log.d("iok", "campos vacios")
+                        nameValidate.value = true
+                        emailValidate.value = true
+                        passwordValidate.value = true
+                        password2Validate.value = true
                     }
 
                     if (validateEmail(emailValue.value)){
@@ -244,6 +243,7 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
                     } else {
                         // msj: el email no es valido
                         Log.d("iok", "email invalido")
+                        emailValidate.value = true
                     }
 
                     if (validatePasswords(passwordValue.value, passwordValueRepeat.value)){
@@ -251,6 +251,8 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
                     } else {
                         // msj: las contrasenas no coinciden
                         Log.d("iok", "contrasenias no coinciden")
+                        passwordValidate.value = true
+                        password2Validate.value = true
                     }
 
                     if (fields_valid && email_valid && passwords_valid) {
@@ -266,8 +268,11 @@ fun form(navController: NavController, state: RegistrationScreenState, register:
                         } else {
                             // msj: este email ya esta registrado
                             Log.d("Register", "email registrado")
+                            nameValidate.value = false
+                            emailValidate.value = false
+                            passwordValidate.value = false
+                            password2Validate.value = false
                         }
-
                     }
 
                 }

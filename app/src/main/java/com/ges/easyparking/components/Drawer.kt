@@ -1,5 +1,7 @@
 package com.ges.easyparking.components
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -9,10 +11,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -45,7 +49,6 @@ fun Drawer(
                 navController.navigate(item.route) {
                     launchSingleTop = true
                 }
-
                 scope.launch {
                     scaffoldState.drawerState.close()
                 }
@@ -83,6 +86,42 @@ fun Drawer(
                 text= "Cerrar sesión",
                 style = TextStyle(fontSize = 18.sp),
                 color = if(state) MaterialTheme.colors.primary else Color.Black
+            )
+        }
+        Spacer(modifier = Modifier.width(18.dp))
+        val context = LocalContext.current
+        val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLScus-_FPdK01vAlE84AQAnieX8Cl60YeeAqlJXFbWt5L0wT5Q/closedform")) }
+
+        var stateU = false
+        Row(
+            modifier = Modifier
+                .clickable {
+                    stateU = !stateU
+                    scope.launch {
+                        userManager.storeLoginState(false)
+                        scaffoldState.drawerState.close()
+                    }
+                    context.startActivity(intent)
+                }
+                .fillMaxWidth()
+                .height(56.dp)
+                .padding(6.dp)
+                .clip(RoundedCornerShape(12))
+                .background(if (stateU) MaterialTheme.colors.primary.copy(alpha = 0.25f) else Color.Transparent)
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(48.dp),
+                painter = painterResource(id = R.drawable.ic_test_svgrepo_com),
+                contentDescription = "Cuestionario",
+                tint = if(stateU) MaterialTheme.colors.primary else Color.Gray
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text= "Cuestionario de valoración",
+                style = TextStyle(fontSize = 14.sp),
+                color = if(stateU) MaterialTheme.colors.primary else Color.Black
             )
         }
     }

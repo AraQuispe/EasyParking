@@ -24,9 +24,11 @@ fun TransparentTextField(
     keyboardActions: KeyboardActions,
     imeAction: ImeAction,
     trailingIcon: @Composable() (() -> Unit)? = null,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    isError:Boolean
 ) {
     TextField(
+        isError= isError,
         modifier = modifier.fillMaxWidth(),
         value = textFieldValue.value.take(maxChar ?: 40),
         onValueChange = { textFieldValue.value = it },

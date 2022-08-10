@@ -50,8 +50,12 @@ fun LoginScreen(
 ){
     Scaffold {
         val emailValue = rememberSaveable { mutableStateOf("") }
+        val emailValidate = rememberSaveable { mutableStateOf(false) }
+
         val passwordValue = rememberSaveable { mutableStateOf("") }
         var passwordVisibility by remember { mutableStateOf(false) }
+        val passwordValidate = rememberSaveable { mutableStateOf(false) }
+
         val focusManager = LocalFocusManager.current
         val scope = rememberCoroutineScope()
 
@@ -121,7 +125,8 @@ fun LoginScreen(
                                             focusManager.moveFocus(FocusDirection.Down)
                                         }
                                     ),
-                                    imeAction = ImeAction.Next
+                                    imeAction = ImeAction.Next,
+                                    isError = emailValidate.value
                                 )
 
                                 TransparentTextField(
@@ -156,7 +161,9 @@ fun LoginScreen(
                                         VisualTransformation.None
                                     } else {
                                         PasswordVisualTransformation()
-                                    }
+                                    },
+                                    isError = passwordValidate.value
+
                                 )
 
                                 Text(
@@ -177,23 +184,34 @@ fun LoginScreen(
                                     displayProgressBar = false,
                                     onClick = {
                                         var correct = false
+                                        var emailFalse=false
+                                        var passFalse=false
+
                                         state.users.forEach { item ->
                                             val email = item.email.toString()
                                             val password = item.password.toString()
 
                                             if (email == emailValue.value && password == passwordValue.value)
                                                 correct = true
+                                            if(email != emailValue.value)
+                                                emailFalse = true
+                                            if(password != passwordValue.value)
+                                                passFalse = true
                                         }
                                         if(correct){
                                             scope.launch {
                                                 userManager.storeDisplayTopBar(true)
                                                 userManager.storeLoginState(true)
                                             }
+                                            emailValidate.value = false
+                                            passwordValidate.value = false
                                             Log.d("iok","Login exitoso")
                                             navController.navigate(route = AppScreens.HomeScreen.route)
                                         } else {
                                             // msj: datos incorrectos
                                             Log.d("iok","Datos incorrectos")
+                                            if(emailFalse) emailValidate.value = true
+                                            if (passFalse) passwordValidate.value = true
                                         }
                                     }
                                 )
